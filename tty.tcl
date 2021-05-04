@@ -209,7 +209,7 @@ namespace eval ::tty {
 		}
 		join [lmap t $args {
 			if {![dict exists $map $t]} continue
-			return -level 0 \1\x1B\[[dict get $map $t]m\2
+			return -level 0 \x1B\[[dict get $map $t]m
 		}] {}
 	}
 

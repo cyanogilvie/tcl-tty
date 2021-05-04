@@ -50,6 +50,10 @@ tty - Control TTY terminals and ANSI colour sequences
 
 **tty can** *capability*
 
+**tty init**
+
+**tty reset**
+
 # DESCRIPTION
 
 This package allows Tcl scripts to control TTYs (move cursors, set scroll
@@ -96,8 +100,8 @@ can't exec tput, or you lack one of the required packages (tclsignal, parse_args
     | -border_colour | no, default white | The colour to use when displaying table separators or structure |
 
 **tty setup**
-:   Register signal handlers to respond to SIGWINCH and SIGTERM, SIGINT correctly,
-    and hook ::exit for required cleanup.
+:   Register a signal handler to respond to SIGWINCH correctly, initialize the terminal,
+    set cursor mode and hook ::exit for required cleanup.
 
 **tty get columns**
 :   Return the current width of the terminal in characters.  Value is cached and
@@ -152,6 +156,12 @@ can't exec tput, or you lack one of the required packages (tclsignal, parse_args
     |---|---|
     | overstrike | Does this terminal support overstrike? |
     | statusline | Does this terminal have a status line? |
+
+**tty init**
+:   Send the init sequences defined for this terminal.
+
+**tty reset**
+:   Send the reset sequences defined for this terminal.
 
 # COLOUR CODES
 

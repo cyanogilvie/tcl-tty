@@ -1,4 +1,4 @@
-VER=0.1
+VER=0.2
 TCLSH=tclsh
 DESTDIR=/usr/local
 

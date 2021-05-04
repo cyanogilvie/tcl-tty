@@ -130,15 +130,13 @@ namespace eval ::tty {
 		package require tclsignal
 		signal add SIGWINCH ::tty::helpers::updatesize
 		updatesize
-		signal add SIGTERM ::exit
-		signal add SIGINT ::exit
-        #tty write [tty set_mode_cursor]
+        tty write [tty init][tty set_mode_cursor]
 
 		# Arrange to have rmcup run at exit
 		if {[llength [info commands ::tty::_exit]] == 0} {
 			rename ::exit ::tty::_exit
 			proc ::exit {{rc 0}} {
-				tty write [tty reset_mode_cursor]
+				tty write [tty reset_mode_cursor][tty set_scroll_region 0 [- [tty get lines] 1]][tty goto_last_line]\n
 				tailcall ::tty::_exit $rc
 			}
 		}

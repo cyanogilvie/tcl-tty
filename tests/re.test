@@ -1,0 +1,68 @@
+package require tcltest
+namespace import ::tcltest::*
+::tcltest::loadTestedCommands
+
+test re-0.1 {print, SOH} -body { #<<<
+    regexp -inline [dict get $::tty::re print] "hello, \1foo\2world"
+} -result {{hello, }}
+#>>>
+test re-0.2 {print, ANSI} -body { #<<<
+    regexp -inline [dict get $::tty::re print] "hello, \x1B\[31mfoo\x1B\[0mworld"
+} -result {{hello, }}
+#>>>
+test re-0.3 {non_print, SOH} -body { #<<<
+    lmap e [regexp -inline [dict get $::tty::re non_print] "hello, \1foo\2world"] {binary encode hex $e}   
+} -cleanup {
+    unset -nocomplain e
+} -result [list [binary encode hex "\x01foo\x02"]]
+#>>>
+test re-0.4 {non_print, ANSI} -body { #<<<
+    lmap e [regexp -inline [dict get $::tty::re non_print] "hello, \x1B\[1m\x1B\[31mfoo\x1B\[0mworld"] {binary encode hex $e}   
+
+} -cleanup {
+    unset -nocomplain e
+} -result [binary encode hex "\x1B\[1m\x1B\[31m"]
+#>>>
+test re-1.0 {Split string into printing and non-printing sections, SOH to SOT} -body { #<<<
+    lmap e [regexp -all -inline [dict get $::tty::re print,non_print] "hello, \1foo\2world"] {binary encode hex $e}
+} -cleanup {
+    unset -nocomplain e
+} -result [list \
+    [binary encode hex "hello, \1foo\2"] \
+    [binary encode hex "hello, "] \
+    [binary encode hex "\1foo\2"] \
+    [binary encode hex "world"] \
+    [binary encode hex "world"] \
+    [binary encode hex ""] \
+]
+#>>>
+test re-2.0 {Split string into printing and non-printing sections, ANSI escape sequences} -body { #<<<
+	lmap e [regexp -all -inline [dict get $::tty::re print,non_print] "hello, \x1B\[1m\x1B\[31mworld\x1B\[0m"] {binary encode hex $e}
+} -cleanup {
+    unset -nocomplain e
+} -result [list \
+    [binary encode hex "hello, \x1B\[1m\x1B\[31m"] \
+    [binary encode hex "hello, "] \
+    [binary encode hex "\x1B\[1m\x1B\[31m"] \
+    [binary encode hex "world\x1B\[0m"] \
+    [binary encode hex "world"] \
+    [binary encode hex "\x1B\[0m"] \
+]
+#>>>
+test re-3.0 {Split string into printing and non-printing sections, combined ANSI escape sequences and SOH to SOT} -body { #<<<
+	lmap e [regexp -all -inline [dict get $::tty::re print,non_print] "hello, \x01\x1B\[1m\x1B\[31m\x02world\x1B\[0m"] {binary encode hex $e}
+} -cleanup {
+    unset -nocomplain e
+} -result [list \
+    [binary encode hex "hello, \x01\x1B\[1m\x1B\[31m\x02"] \
+    [binary encode hex "hello, "] \
+    [binary encode hex "\x01\x1B\[1m\x1B\[31m\x02"] \
+    [binary encode hex "world\x1B\[0m"] \
+    [binary encode hex "world"] \
+    [binary encode hex "\x1B\[0m"] \
+]
+#>>>
+
+::tcltest::cleanupTests
+return
+# vim: ft=tcl foldmethod=marker foldmarker=<<<,>>> ts=4 shiftwidth=4

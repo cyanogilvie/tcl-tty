@@ -1,0 +1,65 @@
+package require tcltest
+namespace import ::tcltest::*
+::tcltest::loadTestedCommands
+
+tty setup
+
+test table-1.0 {Format table data} -setup { #<<<
+    rename ::tty::get::columns ::tty::get::_columns
+    proc ::tty::get::columns {} {return 80}
+} -body {
+    set data {
+        {
+            server      web1
+            status      up
+            r/s         23.4163626
+        }
+        {
+            server      web2
+            status      down
+            r/s         {}
+        }
+        {
+            server      web3
+            status      up
+            r/s         21.4381318
+        }
+    }
+
+    tty table \
+        -data $data \
+        -columns {
+            { Status       status  centre  {-size fixed} }
+            { Server       server  left    {-size grow}  }
+            { Requests/sec r/s     right   {-size fixed} }
+        } -formatters {
+            status {v {
+                if {$v eq "up"} {
+                    tty colour green {set v}
+                } else {
+                    tty colour red {set v}
+                }
+            }}
+            r/s {v {
+                if {$v eq ""} {
+                    tty colour red {return -level 0 --}
+                } else {
+                    format %.1f $v
+                }
+            }}
+        }
+} -cleanup {
+    unset -nocomplain data
+    rename ::tty::get::columns {}
+    rename ::tty::get::_columns ::tty::get::columns
+} -result "[tty c white]Status[tty c norm][tty c white] | [tty c norm][tty c white]Server[tty c norm]                                                  [tty c white] | [tty c norm][tty c white]Requests/sec[tty c norm]
+  [tty c green]up[tty c norm]  [tty c white] | [tty c norm]web1                                                    [tty c white] | [tty c norm]        23.4
+ [tty c red]down[tty c norm] [tty c white] | [tty c norm]web2                                                    [tty c white] | [tty c norm]          [tty c red]--[tty c norm]
+  [tty c green]up[tty c norm]  [tty c white] | [tty c norm]web3                                                    [tty c white] | [tty c norm]        21.4
+[tty c white]================================================================================[tty c norm]"
+#>>>
+
+::tcltest::cleanupTests
+return
+# vim: ft=tcl foldmethod=marker foldmarker=<<<,>>> ts=4 shiftwidth=4
+

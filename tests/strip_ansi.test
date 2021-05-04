@@ -1,0 +1,24 @@
+package require tcltest
+namespace import ::tcltest::*
+::tcltest::loadTestedCommands
+
+test strip_ansi-1.0 {Strip between SOH and SOT} -body { #<<<
+	tty strip_ansi "hello, \1foo\2world"
+} -result {hello, world}
+#>>>
+test strip_ansi-2.0 {Strip ANSI escape sequences} -body { #<<<
+	tty strip_ansi "hello, \x1B\[1m\x1B\[31mworld\x1B\[0m"
+} -result {hello, world}
+#>>>
+test strip_ansi-3.0 {Strip combined ANSI escape sequences and SOH to SOT} -body { #<<<
+	tty strip_ansi "hello, \x01\x1B\[1m\x1B\[31m\x02world\x1B\[0m"
+} -result {hello, world}
+#>>>
+test strip_ansi-4.0 {Strip encapsulating colour sequences} -body { #<<<
+	tty strip_ansi [tty colour green {return -level 0 "hello, world"}]
+} -result {hello, world}
+#>>>
+
+::tcltest::cleanupTests
+return
+# vim: ft=tcl foldmethod=marker foldmarker=<<<,>>> ts=4 shiftwidth=4

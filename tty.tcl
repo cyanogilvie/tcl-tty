@@ -92,6 +92,8 @@ namespace eval ::tty {
 	proc delete_lines count				{cache dl $count}
 	proc clear_to_end_of_line {}		{cache el}
 	proc graphchars {}					{cache acsc}
+	proc init {}						{cache init}
+	proc reset {}						{cache reset}
 	proc repeat {char count} { #<<<
 		#cache rep $char $count
 		string repeat $char $count

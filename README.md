@@ -173,29 +173,31 @@ your platform can’t exec tput, or you lack one of the required packages
 
 # COLOUR CODES
 
-| Code       | Description                                |
-| ---------- | ------------------------------------------ |
-| black      | Foreground black                           |
-| red        | Foreground red                             |
-| green      | Foreground green                           |
-| yellow     | Foreground yellow                          |
-| blue       | Foreground blue                            |
-| purple     | Foreground purple                          |
-| cyan       | Foreground cyan                            |
-| white      | Foreground white                           |
-| bg\_black  | Background black                           |
-| bg\_red    | Background red                             |
-| bg\_green  | Background green                           |
-| bg\_yellow | Background yellow                          |
-| bg\_blue   | Background blue                            |
-| bg\_purple | Background purple                          |
-| bg\_cyan   | Background cyan                            |
-| bg\_white  | Background white                           |
-| inverse    | Invert background and foreground           |
-| bold       | Text to bold                               |
-| underline  | Underline text                             |
-| bright     | Foreground bright                          |
-| norm       | Reset foreground and background to default |
+| Code         | Description                                                      |
+| ------------ | ---------------------------------------------------------------- |
+| black        | Foreground black                                                 |
+| red          | Foreground red                                                   |
+| green        | Foreground green                                                 |
+| yellow       | Foreground yellow                                                |
+| blue         | Foreground blue                                                  |
+| purple       | Foreground purple                                                |
+| cyan         | Foreground cyan                                                  |
+| white        | Foreground white                                                 |
+| bg\_black    | Background black                                                 |
+| bg\_red      | Background red                                                   |
+| bg\_green    | Background green                                                 |
+| bg\_yellow   | Background yellow                                                |
+| bg\_blue     | Background blue                                                  |
+| bg\_purple   | Background purple                                                |
+| bg\_cyan     | Background cyan                                                  |
+| bg\_white    | Background white                                                 |
+| inverse      | Invert background and foreground                                 |
+| bold         | Text to bold                                                     |
+| underline    | Underline text                                                   |
+| bright       | Foreground bright                                                |
+| norm         | Reset foreground and background to default                       |
+| bg\_\#rrggbb | Set background to the HTML-style 24bit hexadecimal colour rrggbb |
+| fg\_\#rrggbb | Set foreground to the HTML-style 24bit hexadecimal colour rrggbb |
 
 # TABLE COLUMN FORMAT
 

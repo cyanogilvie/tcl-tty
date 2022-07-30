@@ -188,6 +188,8 @@ can't exec tput, or you lack one of the required packages (tclsignal, parse_args
 | underline | Underline text |
 | bright | Foreground bright |
 | norm | Reset foreground and background to default |
+| bg_#rrggbb | Set background to the HTML-style 24bit hexadecimal colour rrggbb |
+| fg_#rrggbb | Set foreground to the HTML-style 24bit hexadecimal colour rrggbb |
 
 # TABLE COLUMN FORMAT
 

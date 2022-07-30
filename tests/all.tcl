@@ -13,8 +13,6 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 }
 
 set here	[file dirname [file normalize [info script]]]
-set ::argv	[lassign $::argv srcver]
-source [file join $here .. tm tty-$srcver.tm]; package provide tty $srcver
 
 set ::tcltest::testSingleFile false
 set ::tcltest::testsDirectory [file dir [info script]]

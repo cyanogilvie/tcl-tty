@@ -1,4 +1,5 @@
-VER=0.4
+PACKAGE_NAME=tty
+VER=0.5
 TCLSH=tclsh
 DESTDIR=/usr/local
 
@@ -21,7 +22,7 @@ install-tm: tm
 tm: tm/tty-$(VER).tm
 
 test: all
-	$(TCLSH) tests/all.tcl $(VER) $(TESTFLAGS)
+	$(TCLSH) tests/all.tcl $(TESTFLAGS) -load "source [file join $$::tcltest::testsDirectory .. tm $(PACKAGE_NAME)-$(VER).tm]; package provide $(PACKAGE_NAME) $(VER)"
 
 install: install-tm install-doc
 

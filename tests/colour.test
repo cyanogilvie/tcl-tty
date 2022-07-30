@@ -1,0 +1,12 @@
+package require tcltest
+namespace import ::tcltest::*
+::tcltest::loadTestedCommands
+
+test c-1.0 {24-bit colour support} -body { #<<<
+	binary encode hex [tty c bg_#fe0102 fg_#030405 norm]
+} -result [binary encode hex "\x1B\[48;2;254;1;2m\x1B\[38;2;3;4;5m\x1B\[0m"]
+#>>>
+
+::tcltest::cleanupTests
+return
+# vim: ft=tcl foldmethod=marker foldmarker=<<<,>>> ts=4 shiftwidth=4

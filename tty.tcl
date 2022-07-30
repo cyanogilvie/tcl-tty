@@ -208,8 +208,17 @@ namespace eval ::tty {
 			norm		0
 		}
 		join [lmap t $args {
-			if {![dict exists $map $t]} continue
-			return -level 0 \x1B\[[dict get $map $t]m
+			if {[dict exists $map $t]} {
+				return -level 0 \x1B\[[dict get $map $t]m
+			} else {
+				if {[regexp {^(bg|fg)_#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$} $t - target r g b]} {
+					format "\x1B\[%d;2;%d;%d;%dm" \
+						[expr {$target eq "fg" ? 38 : 48}] \
+						0x$r 0x$g 0x$b
+				} else {
+					error "Invalid colour specification: \"$t\""
+				}
+			}
 		}] {}
 	}
 
@@ -217,7 +226,7 @@ namespace eval ::tty {
 	proc colour args { #<<<
 		set colours	[lrange $args 0 end-1]
 		set script	[lindex $args end]
-		string cat [c {*}$args] [uplevel 1 $script] [c norm]
+		string cat [c {*}$colours] [uplevel 1 $script] [c norm]
 	}
 
 	#>>>

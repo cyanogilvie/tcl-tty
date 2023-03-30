@@ -17,8 +17,8 @@ README.md: doc/tty.md
 	pandoc --standalone --from markdown --to gfm doc/tty.md --output README.md
 
 install-tm: tm
-	mkdir -p "$(DESTDIR)$(PACKAGE)/lib/tcl8/site-tcl/"
-	cp tm/tty-$(VER).tm "$(DESTDIR)$(PACKAGE)/lib/tcl8/site-tcl/"
+	mkdir -p "$(DESTDIR)$(PREFIX)/lib/tcl8/site-tcl/"
+	cp tm/tty-$(VER).tm "$(DESTDIR)$(PREFIX)/lib/tcl8/site-tcl/"
 
 tm: tm/tty-$(VER).tm
 
@@ -30,8 +30,8 @@ install: install-tm install-doc
 docs: doc/tty.n README.md
 
 install-doc: docs
-	mkdir -p "$(DESTDIR)$(PACKAGE)/man/mann"
-	cp doc/tty.n "$(DESTDIR)$(PACKAGE)/man/mann/"
+	mkdir -p "$(DESTDIR)$(PREFIX)/man/mann"
+	cp doc/tty.n "$(DESTDIR)$(PREFIX)/man/mann/"
 
 clean:
 	-rm -r tm doc/tty.n

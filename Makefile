@@ -1,5 +1,5 @@
 PACKAGE_NAME=tty
-VER=0.6
+VER=0.7
 TCLSH=tclsh
 DESTDIR=
 PREFIX=/usr/local

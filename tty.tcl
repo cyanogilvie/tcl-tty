@@ -310,7 +310,7 @@ namespace eval ::tty {
 				set arg	[lindex $args $argp]
 				incr argp
 			} else {
-				set arg	[lindex $args [expr {$position-1 + $position_ofs}]
+				set arg	[lindex $args [expr {$position-1 + $position_ofs}]]
 			}
 			# Resolve the arg(s) consumed by this conversion >>>
 
